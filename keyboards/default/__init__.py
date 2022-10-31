@@ -3,6 +3,7 @@ from .keyboard_name_work_dressmaker import kb_name_work
 from .keyboard_data_time import kb_data_time
 from .keyboard_blanks import kb_blanks
 from .keyboard_dressmarket import kb_sewing
+from .keyboard_status_sewing import kb_status_sewing
 from .keyboard_director import kb_director
 from .dressmarker_del_add import kb_dressmaker_def_add
 from .keyboard_del_save_message import kb_del_save_message

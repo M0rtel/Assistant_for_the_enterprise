@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
+import os
 
 from keyboards.default import kb_name_work, kb_menu
 
@@ -23,11 +24,16 @@ async def datatime1(message: types.Message, state: FSMContext):
     data = await state.get_data()
     data_time = data.get('datatime1')
     if data_time.count('.') == 2 and data_time.count(':') == 1 and data_time.count(' ') == 1:
-        await message.answer(f'Написанная дата и время: {data_time}')
         await state.finish()
+        with open(f'C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt',
+                  'a', encoding='utf-8') as file:
+            file.write(f" {data_time}")
+        await message.answer(f'Написанная дата и время: {data_time}')
 
     elif data_time == 'Назад':
         await state.finish()
+        if os.path.exists(f"C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt"):
+            os.remove(f"C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt")
         await message.answer('Назад', reply_markup=kb_menu)
 
     else:
@@ -36,7 +42,11 @@ async def datatime1(message: types.Message, state: FSMContext):
 
 @dp.message_handler(Text(equals=['Автоматически']))
 async def buttons_data_time_automatically(message: types.Message):
-    print(message.date.strftime('%d-%m-%Y %H:%M').replace('-', '.'))
-
+    data_time_auto = message.date.strftime('%d-%m-%Y %H:%M').replace('-', '.')
+    print(data_time_auto)
+    with open(
+            f'C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt',
+            'a', encoding='utf-8') as file:
+        file.write(f" {data_time_auto}")
     await message.answer(f"Вы выбрали автоматическое вписывание даты и времени "
-                         f"{message.date.strftime('%d-%m-%Y %H:%M').replace('-', '.')}", reply_markup=kb_name_work)
+                         f"{data_time_auto}", reply_markup=kb_name_work)

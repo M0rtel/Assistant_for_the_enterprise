@@ -1,4 +1,5 @@
 import csv
+import os
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
@@ -63,18 +64,30 @@ async def order3(message: types.Message, state: FSMContext):
             list_in_order.append(row[0])
 
     if lastname in list_in_order:
+        await state.finish()
+        with open(f'C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt',
+                  'w', encoding='utf-8') as file:
+            file.write(lastname)
         await message.answer(f"Здравствуйте, {lastname}! "
                              "Вы хотите вручную написать дату и время или сделать это автоматически?",
                              reply_markup=kb_data_time)
-        await state.finish()
+
     elif lastname == 'Назад':
         await state.finish()
+        if os.path.exists(f"C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt"):
+            os.remove(f"C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt")
         await message.answer('Назад', reply_markup=kb_menu)
+
     else:
-        await state.finish()
-        await message.answer(f"Неверная команда: {lastname}", reply_markup=kb_menu)
+        await message.answer(f"Неверная команда: {lastname}")
 
 
 @dp.message_handler(text='Назад')
 async def buttons_back(message: types.Message):
+    if os.path.exists(f"C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt"):
+        os.remove(f"C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank{message.from_user.id}.txt")
+
+    if os.path.exists(f"C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank_lol{message.from_user.id}.txt"):
+        os.remove(f"C:\D\Program\Программирование\Проекты\Python\Проект_Юры\data\Сохранённые состояния\save_text_blank_lol{message.from_user.id}.txt")
+
     await message.answer("Назад", reply_markup=kb_menu)

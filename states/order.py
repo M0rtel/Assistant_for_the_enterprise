@@ -13,6 +13,12 @@ class DataTimeHand(StatesGroup):
 
 class Blanks(StatesGroup):
     blank1 = State()
+    blank2 = State()
+
+
+class Sewing(StatesGroup):
+    sewing1 = State()
+    sewing2 = State()
 
 
 class DelAddDress(StatesGroup):

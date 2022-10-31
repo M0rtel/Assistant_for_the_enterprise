@@ -6,8 +6,8 @@ from .work_sewing import dp
 from .work_blanks import dp
 from .orders_command import dp
 from .orders_command import dp
-from .buttons_del_save_message import dp
 from .button_del_add_dressmarker import dp
+from .status_sewing import dp
 
 from .error import dp
 
